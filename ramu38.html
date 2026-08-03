@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ग्रामकार्ट - डिजिटल ग्रॉसरी स्टोर</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; }
+        header { background-color: #2c3e50; color: white; padding: 20px; text-align: center; position: relative; }
+        
+        /* संस्थापक प्रोफाइल स्टाइल */
+        .founder-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 15px; }
+        .founder-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #27ae60; background: #fff; }
+        .founder-info { text-align: left; }
+        .founder-info h3 { margin: 0; font-size: 16px; color: #f1c40f; }
+        .founder-info p { margin: 2px 0 0; font-size: 13px; color: #ecf0f1; }
+
+        .container { max-width: 1200px; margin: 20px auto; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        .top-action-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .action-btn { background-color: #e67e22; color: white; border: none; padding: 10px 18px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; }
+        .action-btn:hover { background-color: #d35400; }
+        .action-btn.services { background-color: #2980b9; }
+        .action-btn.services:hover { background-color: #1f618d; }
+        .action-btn.pwa-btn { background-color: #8e44ad; }
+        .action-btn.pwa-btn:hover { background-color: #732d91; }
+
+        .info-box { background: #fff8e1; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; }
+        .info-box.active { display: block; }
+        .info-box h3 { margin-top: 0; color: #d35400; font-size: 16px; }
+        .info-box ul { margin: 0; padding-left: 20px; color: #333; font-size: 14px; line-height: 1.6; }
+        .info-box a { color: #2980b9; text-decoration: none; font-weight: bold; }
+        .info-box a:hover { text-decoration: underline; }
+
+        .search-container { text-align: center; margin-bottom: 20px; }
+        .search-box { width: 100%; max-width: 500px; padding: 12px; font-size: 16px; border: 2px solid #27ae60; border-radius: 6px; outline: none; }
+
+        .tab-menu { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; flex-wrap: wrap; }
+        .tab-btn { background-color: #e0e0e0; border: none; padding: 10px 15px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        .tab-btn.active { background-color: #27ae60; color: white; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; }
+        .product-card { border: 1px solid #ddd; padding: 12px; border-radius: 8px; background: #fff; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .product-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; background: #f9f9f9; flex-shrink: 0; }
+        
+        .product-info { flex-grow: 1; }
+        .product-info h3 { margin: 0 0 4px; font-size: 14px; color: #333; }
+        .price-tag { color: #27ae60; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+        
+        .qty-box { display: flex; align-items: center; gap: 6px; }
+        input[type="number"].qty { width: 65px; padding: 4px; text-align: center; font-weight: bold; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; }
+        .unit-text { font-size: 12px; color: #666; font-weight: bold; }
+
+        .cart-section { margin-top: 30px; border-top: 2px solid #eee; padding-top: 15px; }
+        .btn { background-color: #25D366; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
+        .input-field { width: 100%; padding: 10px; margin: 5px 0 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+
+        .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 200px; }
+
+        .extra-item-box { background: #f4ecf7; border: 1px solid #d7bde2; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+        .extra-item-box h4 { margin: 0 0 6px; color: #7d3c98; font-size: 14px; }
+
+        .urgent-delivery-box { background: #fef9e7; border: 1px solid #f9e79f; padding: 10px 12px; border-radius: 6px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #7d6608; font-weight: bold; cursor: pointer; }
+        .urgent-delivery-box input { width: 18px; height: 18px; cursor: pointer; }
+
+        .delivery-rules { background: #e8f8f5; border: 1px solid #a3e4d7; padding: 12px 15px; border-radius: 6px; margin-top: 15px; font-size: 13px; color: #0e6655; line-height: 1.6; }
+        .delivery-rules strong { color: #117a65; }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- सुंदर और आकर्षक ऐप लोगो (Logo Design) -->
+    <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #27ae60, #1e8449); border-radius: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0,0,0,0.3); border: 3px solid #f1c40f; margin: 0 auto 15px auto;">
+        <!-- बड़ा GC अक्षर -->
+        <span style="color: #ffffff; font-size: 42px; font-weight: bold; font-family: Arial, sans-serif; line-height: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">GC</span>
+        <!-- नीचे छोटा हिंदी नाम -->
+        <span style="color: #f1c40f; font-size: 13px; font-weight: bold; font-family: Arial, sans-serif; margin-top: 4px; letter-spacing: 0.5px;">ग्रामकार्ट</span>
+    </div>
+
+    <h1>ग्रामकार्ट ग्रॉसरी स्टोर</h1>
+    <p>शुद्ध और ताजा सामान ऑनलाइन ऑर्डर करें</p>
+    
+    <div class="founder-container">
+        <img src="https://i.ibb.co/68v8L5X/Screenshot-2026-07-31-10-41-36-96.jpg" alt="रुपेश कुमार साह" class="founder-img" onerror="this.src='https://via.placeholder.com/65?text=Rupesh'">
+        <div class="founder-info">
+            <h3>रुपेश कुमार साह</h3>
+            <p>संस्थापक एवं निदेशक</p>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="top-action-bar">
+        <button class="action-btn" onclick="toggleSection('noticeBox')">📢 आवश्यक सूचना</button>
+        <button class="action-btn services" onclick="toggleSection('servicesBox')">🔗 अन्य सेवाएं</button>
+        <button class="action-btn pwa-btn" onclick="toggleSection('installBox')">📲 होम स्क्रीन पर ऐप जोड़ें</button>
+    </div>
+
+    <div id="noticeBox" class="info-box">
+    <h3>📢 स्टोर की जरूरी जानकारियां और नियम:</h3>
+    <ul>
+        <li>स्टोर खुलने का समय: सुबह 7:00 बजे से रात्रि 9:00 बजे तक।</li>
+        <li>शाम 6:00 बजे के बाद किसी भी प्रकार की इमरजेंसी डिलीवरी नहीं की जाएगी।</li>
+        <li>सभी सामान उचित बाजार मूल्य और शुद्धता की गारंटी के साथ दिए जाते हैं।</li>
+        <li><strong>तौल और मात्रा का नियम (Kg में):</strong> यदि आपको 500 ग्राम चाहिए तो <strong>0.5</strong> टाइप करें, 250 ग्राम के लिए <strong>0.25</strong> टाइप करें, 200 ग्राम के लिए <strong>0.2</strong> और 100 ग्राम के लिए <strong>0.1</strong> टाइप करें।</li>
+        <li>विशेष त्योहारों पर छूट और ऑफर्स के लिए जुड़े रहें।</li>
+        <li>ऑर्डर करने के बाद अपना सही डिलीवरी पता और संपर्क नंबर जरूर भरें।</li>
+        <li><strong>यदि आपको ऐप चलाने में कोई भी दिक्कत हो, तो कृपया हमारे मोबाइल नंबर 9546125299 पर संपर्क करें।</strong></li>
+        <li>किसी भी सवाल या सहायता के लिए व्हाट्सएप पर सीधे संपर्क करें।</li>
+    </ul>
+</div>
+
+    <div id="servicesBox" class="info-box" style="background: #eaf2f8; border-color: #aed6f1;">
+        <h3 style="color: #2980b9;">🔗 हमारी अन्य सेवाएं और लिंक्स:</h3>
+        <ul>
+            <li>🛒 <a href="#" target="_blank">पुराना सामान खरीदने या बेचने के लिए यहाँ क्लिक करें</a></li>
+            <li>💊 <a href="#" target="_blank">मेडिकल स्टोर सेवाओं के लिए यहाँ क्लिक करें</a></li>
+            <li>🌾 <a href="#" target="_blank">थोक अनाज और बड़ी बुकिंग के लिए यहाँ क्लिक करें</a></li>
+            <li>📦 <a href="#" target="_blank">पार्सल और डिलीवरी स्टेटस देखने के लिए यहाँ क्लिक करें</a></li>
+            <li>📞 <a href="#" target="_blank">हमसे व्हाट्सएप पर सीधी चैट करने के लिए यहाँ क्लिक करें</a></li>
+        </ul>
+    </div>
+
+    <div id="installBox" class="info-box" style="background: #f5eef8; border-color: #d7bde2;">
+        <h3 style="color: #8e44ad;">📲 ग्रामकार्ट को अपने फोन की होम स्क्रीन पर कैसे सेव करें?</h3>
+        <ul>
+            <li><strong>मोबाइल (Android/iPhone) में:</strong> अपने ब्राउज़र (Chrome/Safari) के ऊपर दाईं ओर दिए गए **तीन बिंदुओं (Menu ⋮)** पर क्लिक करें।</li>
+            <li>सूची में से **"Add to Home Screen (install and create shortcut)   "** या **"होम स्क्रीन पर जोड़ें"** के विकल्प को चुनें।</li>
+            <li>इसके बाद आपके फोन की होम स्क्रीन पर यह ऐप की तरह दिखने लगेगा और आप एक क्लिक से इसे खोल सकेंगे!</li>
+        </ul>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchBox" class="search-box" placeholder="🔍 यहाँ सामान का नाम खोजें..." onkeyup="searchProducts()">
+    </div>
+
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">🌾 1. अनाज एवं राशन</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">🛢️ 2. तेल एवं मसाले</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">🪔 3. पूजा एवं घरेलू</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">🍪  4. बिस्कुट एवं स्नैक्स</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">🧴  5. साबुन एवं देखभाल</button>
+    </div>
+
+    <div id="tab1" class="tab-content active">
+        <h2>राशन और अनाज के सामान</h2>
+        <div class="product-grid" id="grid1"></div>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <h2>तेल, घी और मसाले</h2>
+        <div class="product-grid" id="grid2"></div>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <h2>पूजा और घरेलू जरूरतें</h2>
+        <div class="product-grid" id="grid3"></div>
+    </div>
+
+    <div id="tab4" class="tab-content">
+        <h2>बिस्कुट, नमकीन और पैक्ड फूड्स</h2>
+        <div class="product-grid" id="grid4"></div>
+    </div>
+
+    <div id="tab5" class="tab-content">
+        <h2>साबुन, तेल और पर्सनल केयर</h2>
+        <div class="product-grid" id="grid5"></div>
+    </div>
+
+    <div class="cart-section">
+        <h3>ग्राहक विवरण (डिलीवरी पता)</h3>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>ग्राहक का नाम:</label>
+                <input type="text" id="custName" class="input-field" placeholder="अपना पूरा नाम दर्ज करें">
+            </div>
+            <div class="form-group">
+                <label>मोबाइल नंबर (व्हाट्सएप नंबर):</label>
+                <input type="tel" id="custPhone" class="input-field" placeholder="10 अंकों का मोबाइल नंबर दर्ज करें">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>गांव / मोहल्ला:</label>
+                <input type="text" id="custVillage" class="input-field" placeholder="गांव या मोहल्ले का नाम">
+            </div>
+            <div class="form-group">
+                <label>वार्ड नंबर:</label>
+                <input type="text" id="custWard" class="input-field" placeholder="जैसे: वार्ड नं. 05">
+            </div>
+        </div>
+
+        <label>आसपास की प्रसिद्ध जगह (Landmark):</label>
+        <input type="text" id="custLandmark" class="input-field" placeholder="जैसे: मंदिर के पास, स्कूल के सामने, मुखिया जी के घर के पास आदि">
+
+        <div class="extra-item-box">
+            <h4>📷 जो सामान ऐप पर नहीं है, उसका नाम यहाँ लिखें:</h4>
+            <input type="text" id="extraItemName" class="input-field" style="margin-bottom: 5px; background: #fff;" placeholder="जैसे: कोई खास दवा, सब्जी या अन्य सामान">
+            <span style="font-size: 12px; color: #512e5f; display: block; line-height: 1.4;">
+                💡 <strong>नोट:</strong> व्हाट्सएप पर मैसेज भेजने के बाद आप उस सामान की फोटो भी चैट में भेज सकते हैं।
+            </span>
+        </div>
+
+        <label class="urgent-delivery-box">
+            <input type="checkbox" id="urgentDelivery" onchange="calcTotal()"> <span>⚡ मुझे 1 घंटे के अंदर डिलीवरी चाहिए (+₹20 इमरजेंसी डिलीवरी चार्ज)</span>
+        </label>
+
+        <h3>कुल अनुमानित राशि: <span id="totalAmount" style="color: #e74c3c;">₹0</span></h3>
+        <button class="btn" onclick="sendToWhatsApp()">व्हाट्सएप पर ऑर्डर भेजें 📲</button>
+        
+        <div class="delivery-rules">
+            <strong>🚚 डिलीवरी और मूल्य नियम:</strong><br>
+            • ₹200 से कम की खरीदारी पर: <strong>₹00 डिलीवरी चार्ज</strong><br>
+            • ₹200 से ₹500 के बीच: सामान्य नियम लागू<br>
+            • ₹500 से अधिक की खरीदारी पर: <strong>फ्री डिलीवरी (₹0 / Free)</strong><br>
+            • 1 घंटे वाली अर्जेंट डिलीवरी पर अतिरिक्त ₹20 चार्ज लगेगा。<br>
+            • <em>विशेष मूल्य नोट:</em> बाजार के उतार-चढ़ाव या रेट अपडेट में देरी के कारण यदि किसी सामान के दाम में हल्का अंतर होगा, तो **ऑर्डर वाले दिन का वास्तविक बाजार मूल्य** मान्य होगा。<br>
+            • <em>ब्रांड और क्वालिटी:</em> बाजार में अलग-अलग ब्रांड और क्वालिटी उपलब्ध होती है, इसलिए यदि किसी उत्पाद का दाम अधिक लगे तो कृपया व्हाट्सएप पर संपर्क करें।
+        </div>
+    </div>
+</div>
+
+<script>
+    const data1 = [
+        {name: "गेहूं का आटा (Atta)", price: 34, unit: "kg", img: "https://cpimg.tistatic.com/9189271/b/4/fortified-wheat-flour.jpg"},
+        {name: "अभिनंदन चावल (Normal Rice)", price: 50, unit: "kg", img: "https://dukaan.b-cdn.net/1000x1000/webp/758319/32f09d67-8d57-4e69-bde6-cbb3c7b16a38.png"},
+        {name: "बासमती चावल (Basmati Rice)", price: 75, unit: "kg", img: "https://spicebasket.com/cdn/shop/files/basmati-rice-1kg-4868958.jpg?v=1759023549&width=1946"},
+        {name: "मैदा (Maida)", price: 34, unit: "kg", img: "https://5.imimg.com/data5/SELLER/Default/2022/4/CD/HG/EM/106091433/maida-loose-3.jpg"},
+        {name: "सूजी (Suji)", price: 40, unit: "kg", img: "https://www.healthshots.com/wp-content/uploads/2020/11/suji.jpg"},
+        {name: "चना बेसन (Besan)", price: 100, unit: "kg", img: "https://m.media-amazon.com/images/I/51nulmcKifL._AC_UF1000,1000_QL80_.jpg"},
+         {name: "आलू   aalu", price: 14, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-_iczy45h-p6GMB0RbtXN7u3oeU7Zoi0eL45-ZxiFTg&s"},
+         {name: "प्याज  Onion", price: 30, unit: "kg", img: "https://mdafnb.com/wp-content/uploads/2020/07/pyaj-300x300.jpg"},
+        {name: "सफेद मटर (सूखी सफेद मटर)", price: 55, unit: "kg", img: "https://5.imimg.com/data5/ECOM/Default/2024/12/475662061/EO/EA/OR/109941460/sku-8311-0-1722665894139-500x500.jpg"},
+        {name: "अरहर दाल (Toor Dal)", price: 110, unit: "kg", img: "https://tiimg.tistatic.com/fp/1/007/639/rich-in-high-protein-no-added-preservative-natural-healthy-yellow-toor-dal-006.jpg"},
+        {name: "मूंग छिलका दाल (Moong Chilka)", price: 100, unit: "kg", img: "https://5.imimg.com/data5/SELLER/Default/2021/2/EN/SZ/CQ/72869080/green-dal.jpg"},
+        {name: "पीली मूंग दाल (Yellow Moong)", price: 105, unit: "kg", img: "https://nuttyyogi.com/cdn/shop/products/MOOONG.jpg?v=1606373709"},
+        {name: "चना दाल (Chana Dal)", price: 85, unit: "kg", img: "https://5.imimg.com/data5/YO/IK/MY-4757781/chana-dal.jpg"},
+        {name: "मसूर दाल (Masoor Dal)", price: 78, unit: "kg", img: "https://images.healthshots.com/healthshots/hi/uploads/2022/03/04185543/Masoor-dal-skin-benefits.jpg"},
+        {name: "चीनी (Sugar)", price: 50, unit: "kg", img: "https://tiimg.tistatic.com/fp/1/008/308/99-9-purity-sweet-and-granule-shaped-crystal-refined-sugar-436.jpg"},
+        {name: "गुड़ (Gur)", price: 60, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9uRiKVTcNhXSsKBC9Z2jeOVAUgFF5ckrIUVshhqrIHujOg83Z_8jC9b4j&s=10"},
+        {name: "चूड़ा / पोहा (Poha/Chura)", price: 40, unit: "kg", img: "https://5.imimg.com/data5/ANDROID/Default/2025/8/540826062/VV/LU/JH/212811255/product-jpeg-500x500.jpg"},
+        {name: "सत्तू (Sattu)", price: 110, unit: "kg", img: "https://i0.wp.com/everydayvegcooking.com/wp-content/uploads/2024/04/SattuPowder_.jpg?fit=700%2C420&ssl=1"},
+        {name: "खेसारी khesari", price: 52, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjMiVZopa44IRDZsOuCVvaR7zCd_DWFQ1K7v0phXnFoFCCTB7D0tykABs&s=10"},
+{name: "फॉर्च्यून बेसन — Fortune Besan", price: "62", unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW3ct2SWI0zkNvxupOd2wwi61dGZGRNDW5Ui-LV43oJg&s=10"},
+{name: "हॉर्लिक्स पाउच 1kg — Horlicks Pouch 1kg", price: "390", unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTexM-Li1GT6EPXUMTMtXTMJjoDqzFGIjrT9Q88GJ2Apw&s=10"},
+{name: "हॉर्लिक्स पाउच 500g — Horlicks Pouch 500g", price: "220", unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpaTKTo_sPEmCrUOKMaG9Wp_gIsMRTqkVWXzSGiT4WvA&s=10"},
+{name: "ग्लूकोज छोटा वाला — Glucose Chhota Wala", price: "30", unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThD8JjFwSTSnM-KVSx7cysm6AEIlb9OTV1GZ18BGAz4Q&s=10"},
+{name: "मूंग साबुत — Moong Sabut", price: "100", unit: "kg", img: "https://tiimg.tistatic.com/fp/1/008/244/commonly-cultivated-100-pure-oval-shape-indian-origin-dried-green-moong-877.jpg"},
+{name: "काबुली चना छोटा वाला — Kabuli Chana Chhota Wala", price: "82", unit: "kg", img: "https://5.imimg.com/data5/SELLER/Default/2026/6/615237499/ZV/AM/OJ/149419796/kabuli-chana-250x250.png"},
+{name: " चना   Chana ", price: "75", unit: "kg", img: "https://krishidhara.com/wp-content/uploads/2025/03/500-desi-chana-medium-size-500gr-1-chana-desi-aahar-original-imagkyfgayfwyz27.webp"},
+{name: "काबुली चना बड़ा वाला — Kabuli Chana Bada Wala", price: "87", unit: "kg", img: "https://chandanbrothers.com/wp-content/uploads/2024/05/kabuli-chana-big.jpg"},
+ { name: "किशमिश – Kishmish 100g", price: 45, unit: "pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_KXvMXJRYEf7zFmlRMYUM4TjIP7sne2pg6UbICEd9CQ&s=10" },
+ { name: "बादाम – Badam 100g", price: 14, unit: "pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5GwPQHnE8utr9LpeJ9iZHRqLBBBSVAZ3lpQ70UqE2Yw&s=10" },
+ { name: "साबूदाना – Sabudana 200g", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-AwiauN0aqyeqFQGjKFQ0ZOIsXEWiCSAdInjbz7EsSA&s=10" },
+ { name: "साबूदाना – Sabudana", price:100, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxcGARw3wjK0yyT1JIQuc9Ws7ApE7dAxm2OW3Cb8ulUA&s=10" },
+ { name: "सोडा – Soda 100g ", price: 8, unit: "pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHD9N2tXbSYXgNVFic5lEx0g_usIcR5cTzKBYoUIWKLA&s=10" },
+ { name: "मछली वाला धनौरी – Machhli Wala Dhanauri", price: 100, unit: "kg", img: "https://m.media-amazon.com/images/I/71nn2W7QL5L._AC_UF894,1000_QL80_.jpg" },
+       { name: "नोवेल – Novel", price: 85, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJzL0AAlrbs6AkzpVZ4vb4l4DXnRp62vk6lXaWZyggSg&s" },
+   { name: "पास्ता – Pasta", price: 60, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9lFi7zhrT7F5cUsnJQqLux9aqI3nK7xCqH4W_BAB2EQ&s=10" },
+ { name: "भिण्डी ( Bhindi )वाला धनौरी ", price: 60, unit: "kg", img: "https://i.etsystatic.com/24223026/r/il/c219a7/7649676860/il_794xN.7649676860_21as.jpg" },
+ {name: "खेसारी बेसन khesari besan", price: 60, unit: "kg", img: "https://static.toiimg.com/thumb/87460265.jpg?photoid=87460265&imgsize=64448&width=375&height=210&resizemode=75"}
+    ];
+
+   const data2 = [
+    { name: "शुद्ध सरसों तेल (Mustard Oil)", price: 175, unit: "Ltr", img: "https://sabziadda.com/wp-content/uploads/2014/01/Scooter-Mustard-Oil-1L.jpg" },
+    { name: "सरसों तेल छोटा पैक (Small Pack)", price: 90, unit: "Pkt", img: "https://rukminim2.flixcart.com/image/480/480/xif0q/edible-oil/s/y/8/500-kachi-ghani-pouch-1-mustard-oil-scooter-original-imagzjcjjeefxeqy.jpeg?q=20" },
+    { name: "रिफाइंड तेल (Refined Oil)", price: 140, unit: "Ltr", img: "https://m.media-amazon.com/images/I/612KEkQnTJL._AC_UF894,1000_QL80_.jpg" },
+    { name: "चाय पत्ती (Chai Patti) 100g", price: 25, unit: "Pkt", img: "https://dukaan.b-cdn.net/700x700/webp/336445/e4bc488a-681d-462d-85ed-50d37b2f3101.png" }, 
+    { name: "चाय पत्ती (Chai Patti) 40g", price: 10, unit: "Pkt", img: "https://static-01.daraz.com.np/p/76ed32f5961b93b5498320fce7761f3e.jpg" },
+    { name: "चाय पत्ती (Chai Patti)", price: 5, unit: "Pkt", img: "https://www.bbassets.com/media/uploads/p/l/40305563_1-tata-tea-agni-leaf-danedar-chai.jpg" },   
+    { name: "टाटा नमक पैकेट (Salt Packet)1kg", price: 28, unit: "Pkt", img: "https://www.tatanutrikorner.com/cdn/shop/files/Tata_Salt_-_North_Central_Recyclable_AH-IN-JB-RP-BH-PU-SG_1_Kg_FOP-removebg-preview.png?v=1745827173" },
+    { name: "टाटा नमक पैकेट (Salt Packet)500g", price: 10, unit: "Pkt", img: "https://www.tatanutrikorner.com/cdn/shop/files/Tata_Salt_-_North_Central_Recyclable_AH-IN-JB-RP-BH-PU-SG_1_Kg_FOP-removebg-preview.png?v=1745827173" },
+    { name: "साधारण नमक पैकेट (Salt Packet)1kg", price: 10, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcDbedi6dhRBoKyXjfRjt3YBkidCOx3-kDcM7X6dKDuw&s=10" },
+    { name: "साधारण नमक पैकेट (Salt Packet)500g", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcDbedi6dhRBoKyXjfRjt3YBkidCOx3-kDcM7X6dKDuw&s=10" },
+    { name: "हल्दी पाउडर (Turmeric)100g", price: 30, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2023/8/335800960/TS/XH/OJ/191457182/organic-turmeric-powder-500x500.jpeg" },
+    { name: "हल्दी साबुत (Turmeric)", price: 170, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA8WqS5PyhFh30jNv73fE_EOROm853VO4CIwTxRtKLW4rQH6uXnSeg2Uw&s=10" },
+    { name: "मिर्च पाउडर (Chili Powder)100g", price: 30, unit: "Pkt", img: "https://t4.ftcdn.net/jpg/12/96/74/91/360_F_1296749157_9go2c8Q3u0LKTx2KKoDexcLUzAleBnTo.jpg" }, 
+    { name: "मिर्च साबुत (Chili)", price: 240, unit: "kg", img: "https://farmonics.co.in/cdn/shop/products/Mirchwhole-Farmonics.jpg?v=1697798088&width=1445" },
+    { name: "धनिया साबुत (Coriander)", price: 180, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWqoGaqFQP7m1Iz_lqITyfgtGjQmmziIe_9gOAVHVp3HFbTW4Yw2oXei4&s=10" },
+   {name: "चिकन मसाला (chicken masala)100g", price: 25, unit: "Pkt", img: "https://images-eu.ssl-images-amazon.com/images/I/715dkGqPdzL._AC_UL495_SR435,495_.jpg"},
+ {name: "चिकन मसाला (chicken masala)50g", price: 25, unit: "Pkt", img: "https://images-eu.ssl-images-amazon.com/images/I/715dkGqPdzL._AC_UL495_SR435,495_.jpg"},
+ {name: "चिकन मसाला (chicken masala)", price: 5, unit: "Pkt", img: "https://storage.googleapis.com/shy-pub/414021/SKU-0285_0-1761907671288.jpg"},
+ {name: "मीट मसाला Meat masala100g", price: 25, unit: "Pkt", img: "https://images-eu.ssl-images-amazon.com/images/I/716SJLX1qFL._AC_UL495_SR435,495_.jpg"},
+{name: "मीट मसाला Meat masala50g", price: 25, unit: "Pkt", img: "https://images-eu.ssl-images-amazon.com/images/I/716SJLX1qFL._AC_UL495_SR435,495_.jpg"},
+ {name: "मीट मसाला Meat masala", price: 5, unit: "Pkt", img: "https://m.media-amazon.com/images/I/61GbehZfqJL._AC_UF894,1000_QL80_.jpg"},
+ {name: "राकेश गरम मसाला (Rakesh Garam Masala100g", price: 25, unit: "Pkt", img: "https://m.media-amazon.com/images/I/71aJQ9avfYL._AC_UF894,1000_QL80_.jpg"},
+ {name: "राकेश गरम मसाला (Rakesh Garam Masala50g", price: 25, unit: "Pkt", img: "https://m.media-amazon.com/images/I/71aJQ9avfYL._AC_UF894,1000_QL80_.jpg"},
+ {name: "राकेश गरम मसाला (Rakesh Garam Masala", price: 5, unit: "Pkt", img: "https://cdn2.clevup.in/414021/SKU-0449_0-1763884824122.jpg?format=webp"},
+ {name: "शाही पनीर मसाला shahi paneer garam", price: 5, unit: "Pkt", img: "https://image.cdn.shpy.in/414021/SKU-0287_0-1761895915596.jpg?width=600&format=webp"},
+ {name: "मछली मसाला Machhali masala", price: 5, unit: "Pkt", img: "https://timbuktu80.com/share-product-image/ll6413-a56bhog11002afc-everest-fish-curry.jpeg"},
+ {name: "सब्जी मसाला Sabji masala", price: 5, unit: "Pkt", img: "https://dukaan.b-cdn.net/700x700/webp/160282/d7b69ecd-1c18-4cd5-9ee9-b347931f6544.png"},
+ {name: "चाट मसाला chaat masala ", price: 5, unit: "Pkt", img: "https://dukaan.b-cdn.net/700x700/webp/669840/c1046227-0a3e-4b0d-b523-39a7e70e3440.png"},
+ {name: "गोटा गरम मसाला (Gota/Khara Garam Masala", price: 10, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRetB_tyvz63C8HqWtFCwps28JG1ttgRo1tX_UocsjuYQ&s=10"},
+ {name: "धनिया पाउडर (Coriander)100g", price: 20, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs9vMM-zpkbYXS-WovewDHIQ0WpjtkPN09BxC_pY8DZA&s=10"},
+{name: "गोटा गरम मसाला (Gota/Khara Garam Masala", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRetB_tyvz63C8HqWtFCwps28JG1ttgRo1tX_UocsjuYQ&s=10"},
+{name: "गोटा गरम मसाला (Gota/Khara Garam Masala 25g", price: 50, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2021/1/CJ/PA/UR/71524567/gota-garam-masala.jpg"},
+ {name: "लहसुन lahsun", price: 130, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJeOnX4abXl6i4LmEv1XuI0g2AIamaeOSMmtlP9ciWZMu5HOMdG_TiJUs7&s=10"},
+ {name: "सोयाबीन बड़ी Soybean badi )", price: 10, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2023/3/296476203/OP/XY/FU/31029637/rakesh-soya-rich.jpg"},
+{name: "सोयाबीन बड़ी Soybean badi", price: 125, unit: "Pkt ", img: "https://m.media-amazon.com/images/I/71vXsvYDH7L.jpg"},
+{name: "सोयाबीन बड़ी Soybean badi 100g वही पैकेट खुला हुआ मिलेगा ", price: 15, unit: "Pkt ", img: "https://m.media-amazon.com/images/I/71vXsvYDH7L.jpg"},
+{name: "सोयाबीन बड़ी Soybean badi खुला हुआ मिलेगा ", price: 90, unit: "kg ", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPQbVRdul3OWAaLELyxZUg5IfheQtuXPotIh0LhxHubg&s=10"},
+ {name: "तेज पत्ता Tej patta 50g", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbSzvQOCi5rE_3HTyQ7BTbkvWXHKczfhXIFDbHJaUTDOtV2wjy7Xq3di8&s=10"}, 
+ { name: "आरारोट – Ararot", price: 60, unit: "kg", img: "https://images.meesho.com/images/products/261656075/popos_512.webp?width=512" },
+    { name: "जीरा – Jeera 100g", price: 35, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeGucHnZBuxsZFSIk3z-v0r071YX0cNeMJmq-PobqChA&s=10" },
+    { name: "मरीच – Marich 100g", price: 80, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_cpO-n_BGpwdcwk8x3iLoyvwkZHnxQv3AUXNDgwkrWg&s=10" },
+     { name: "चाट मसाला Chaat masala", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDbbd6RusqdWOHRsOy3Zmmzs0WM62rYV-zky9bUudEKw&s" },
+    { name: "चाट मसाला Chaat masala 50g", price: 32, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWxCP6hWfw_xiaNtPF9HC78_ym1FAjX2LV9PcQoh8Tag&s=10" },
+{ name: "काला नमक – Kala Namak 100g", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZHSI0Ps0nnixrdXAYv4lXxQfuaK_fWe7fRhoEp0QOBQ&s" },
+{ name: "काला नमक – Kala Namak 500g", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN5PeZdMvg8FHeDBOzp47Ew4iP2HjGlSLJ1oYLSv-2OA&s=10" },
+ { name: "सेंधा नमक – Sendha Namak", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3DREMn0G3rKPD6JYuYy5zgS5zdTh15iAuv_Sd7mG9nw&s=10" },
+    { name: "तेज पत्ता (Tej Patta)", price: 100, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbSzvQOCi5rE_3HTyQ7BTbkvWXHKczfhXIFDbHJaUTDOtV2wjy7Xq3di8&s=10" }
+];
+
+    const data3 = [
+    {name: "अगरबत्ती (Agarbatti)", price: 10, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROfSnOILOsDKnD1CmUjznDY2TYEdocTWD3-N9wVV2xhjxKe7uUdtxpKaA&s=10"},
+    {name: "अगरबत्ती (Agarbatti)", price: 20, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqeqcFR99JIwCIZ3vevNxQZK_XJGf_LWeay42vKn_zZKy7VmbfPIZhEuc&s=10"},
+    {name: "कपूर (Kapur)5pis", price: 5, unit: "Pcs", img: "https://4.imimg.com/data4/ET/EX/ANDROID-45265432/product-500x500.jpeg"},
+    {name: "कपूर (Kapur)25g", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKl1VBAdqxjVVSmWcZxt2YNGGz4wOtpZ2XCmwNplAQxA&s=10"},
+    {name: "रोली टीका (Roli Teeka)", price: 2, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk92KWCQFhFLIGNf_FWGOcqFWRVmRVae8CAgbF-g7x8w&s=10"},
+    {name: "कलावा / मौली (Kalawa)", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQoTGPUk5EollYQMJkNlTm1jkC9TcR_cmwKFMjWlw3tQ&s=10"},
+    {name: "माचिस (Matchbox)", price: 1, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS65d-ugYVAgPP_P_HAkKcuWTJCbkuQZY0C94XpDbzhXw&s"},
+    {name: "नवाग्रह की लकड़ी (Navgrah Ki Lakdi)", price: 51, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSgn67U3QP9ET9z04oyoxtXnHgWhSSmMhHv-rDfXPIjg&s=10"},
+    {name: "हवन सामग्री (Havan Samagri)100g", price: 60, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaJ1hl_25JJ_NBXCtEmwhcNULRcitUU1iQ1c_lcg957A&s"},
+    {name: "आम की लकड़ी (Aam Ki Lakdi)", price: 20, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFIWwFrnxTSFkoE9VuBEkV7i_-WJ1Kxf1UIQhOU4SC1g&s=10"},
+    {name: "धूप (Dhup)", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFQ6-bkVg676sTM-bxGChwZcYKFLIu-JLQb4jf0quzJA&s=10"},
+    {name: "पीली सरसों (Peeli Sarson)", price: 140, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1zpkwAjzEA7EJzLME5okFSEXw9p2MSJCesLVOfBOHgA&s"},
+    {name: "जौ (Jau)Rs 5 ke", price: 5, unit: "pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt46g0fTPb7XVGgGzJIYvVXvBOF4lgZsRQsPKij8oBrw&s=10"},
+    {name: "तिल (Til)Rs 5 ke", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo-jyZ_3sjf58YObLUwwwOueEaIoOHTwv7I4gBlWulow&s=10"},
+    {name: "शहद (Shahad)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKWjBNg40ndEFX43L9NOUTQ0g_ArfgmSqPhR2i_ZZKKQ&s=10"},
+    {name: "शक्कर", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuezq_uNPhvBrSIJ6in8qKsWk3SG75fYFKqaPiPh8t8w&s=10"},
+    {name: "गाय का घी (Gai Ka Ghee)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdAXIr9EeBdxDvqjxzjnlRB7cMrbcgG1XeW8HTPtHguA&s=10"},
+    {name: "गुलाब जल (Gulab Jal)50g", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpEPeSTrUjWHxa-HCLV1SIiezRVfNj5r_WqGQEbXyPqw&s=10"},
+    {name: "इत्र (Itr)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQasezPAMIy4pRkYeMeNL-Jj1a47d5TGUGLcOYPomSOFA&s"},
+    {name: "मिश्री (Mishri)", price: 80, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwoN7gzdnDCP-ySj4xYyE_7uNVeuhkYofAtdrSDYFhAg&s=10"},
+    {name: "पंचमेवा (Panchmewa) 50g", price: 20, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYEnxDvm8IseJ-4LYUmWzrR-DFWnwqijCj3t2dFsWWTQ&s=10"},
+    {name: "नारियल गोला (Nariyal Gola)100g", price: 40, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRtzsSSmY01LKRMUjFaDASEC3C3u225xGdVvJgHFob_Q&s=10"},
+    {name: "कलावा / मौली (Kalawa / Mauli)", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx4v1YSHnCzfXSNC-D1saM8qzfYJls6Aet9C2oJMBnKA&s=10"},
+    {name: "सुपारी / कसेली (Supari / Kaseli) 1rs (pis)", price: 1, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFRKnUusHzYwjElxr2O8-6g40AIMf7Nun16k22NjU0ng&s=10"},
+    {name: "पीपा सिंदूर (Pipa sindoor)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJIziNdq4ztdex-AcwivZSiFUlus8KJ7229d2Gd9cyaA&s=10"},
+   {name: "अक्षत / चावल (Akshat / Chawal) 50g", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXj0hY5a3D-et6IVFuqQ0644ZsNC6RthpdWQCB-rh3zg&s=10"},
+    {name: "धूप बत्ती (Dhup Batti)", price: 25, unit: "Pcs", img: "https://image.cdn.shpy.in/414021/SKU-1437_0-1764595300049.jpg?width=600&format=webp"},
+    {name: "अगरबत्ती (Agarbatti)", price: 10, unit: "Pcs", img: "https://5.imimg.com/data5/SELLER/Default/2023/6/316534786/BM/KZ/OU/29662504/ghanti-chhap-incense-stick.jpeg"},
+    {name: "कपूर (Kapoor) 25g", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJOW8hvmaYH80_EAqiUYI7NiFzTeHz5goDKYRfjhUK9Q&s"},
+    {name: "कौड़ी (Kaudi)", price: 12, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHcRHz3iHz0PCDBNFaJ0dvxy49Uv4dhGeF17_Y_qJqVw&s=10"},
+    {name: "जानू / जनेऊ (Janeu)", price: 10, unit: "Pcs", img: "https://www.tiwaripujanbhandar.in/wp-content/uploads/2022/11/janeu-peela-e1683474495687.jpg"},
+    {name: "अत्तर (Attar)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREEEZlEhSwD-V4m6Cui9bBb8abOgm6tgrCATKdqIqm8w&s=10"},
+    {name: "गंगाजल (Gangajal)", price: 40, unit: "ltr", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSokIk9U9pGs5UKGjbnuZ34zTHryI8Qdn2dj7NERUnFnA&s=10"},
+    {name: "इलायची (Elaichi) 10p", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTunzfS4XLOtkM_qx57deBkpXqN45mbhF3qUEpQ_DDewQ&s=10"},
+    {name: "लौंग (Laung) 10g", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwXsFrD44dRoZW26ZvePDOpZQD5NhQgLfwWJi7KpsnSA&s=10"},
+    {name: "कमल गट्टा (Kamal Gatta) 1p", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJQwk5eTcfSdNtqTYkg30c2zkZgxt12lzpG_EJ3XKdxA&s=10"},
+    {name: "हल्दी गांठ (Haldi Ganth) 40g", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUl48E7F0oEVY134-bsF3dKrQa66a2YhW6vsWRrzaNuQ&s=10"},
+    {name: "रूई बत्ती (Rui Batti)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2tMesJy1dLrcm6IB1-TbVV-NNa5YQxkWNLET7JrvL2Q&s=10"},
+ { name: "लाल रंग – Lal Rang", price: 2, unit: "Pcs", img: "blob:https://web.whatsapp.com/afcc4b04-0013-4734-bcd4-ecd1b8dcb110" },
+  { name: "पीला रंग – Peela Rang ", price:2 , unit: "Pcs", img: "blob:https://web.whatsapp.com/de06ba87-6202-46fe-ba2c-b951d918976d" },
+  { name: "चंपई रंग – Champai Rang", price: 2, unit: "Pcs", img: "blob:https://web.whatsapp.com/d26a1fa4-bfe4-4e04-9f61-d292e0cf9cca" },
+  { name: "हरा रंग – Hara Rang", price: 2, unit: "Pcs", img: "blob:https://web.whatsapp.com/84c45324-f03e-45b0-8afa-17462bc8d979" },
+{ name: "माकुर दाना – Makur Dana", price: 80, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_FohJ4So4GnztpPZRBnnHbpkBXFRkRednvMoFJz4zcA&s=10" },
+{ name: "भूसी – Bhusi", price: 10, unit: "Pcs", img: "https://5.imimg.com/data5/WK/NP/SG/ANDROID-85440828/product-jpeg.jpg" },
+{ name: "दूध – Doodh", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCWdZhU5BhI8s8o6pRTeWgL4pVV5lQvIVmLpSbeKkwvA&s=10" },
+    {name: "माचिस (Machis) 10p", price: 9, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiimIxNN9b8-oJ1cUsj0ZGszvH34leYQCtlv37JLgJyQ&s"}
+   ];
+
+const data4 = [
+    {name: "मेरीगोल्ड — Marie Gold", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjkZImEIPRXcLrM31ZYGfAM1HqT2IvMtqc_rYKJScWbw&s=10"},
+    {name: "मेरीगोल्ड — Marie Gold", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShwIL1By2F-E-8ZkBihovrYlu0J8Cv7M8H4Lfmi1lXLQ&s=10"},
+    {name: "मेरीगोल्ड — Marie Gold", price: 40, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl7IiAqZLuid6dSJ0xgXrVpqr9uqDvUeVd1Eh5z_kMMA&s=10"},
+    {name: "टॉप स्टार — Top Star", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMd4o1ifvSbD3JNgwziWIiTJ_nssurmgVyWLTAPOCZ8A&s=10"},
+    {name: "टॉप स्टार — Top Star", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-_5zDxAJUoOZ_pDslsGBmq9PW_AkGFXFJAT-2oxfbw&s=10"}, 
+    {name: " —jick  Jack", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
+ {name: " —jick  Jack", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
+    {name: "धूम — Dhoom", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfISwIf6jrzX8AZ0EvPI2q0Aj0Esi5guuIGWxHgcWCXQ&s=10"},
+    {name: "पारले-जी — Parle-G", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ2IW-tXtPOiWDShmwyZN7Nps5wV2ncbNwuVAtoHAZ0g&s=10"},
+    {name: "टॉप — Top", price: 5, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "टॉप — Top", price: 10, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "टॉप — Top", price: 20, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "फ्रूटी मैजिक — Fruity Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdGEicOoyzBoOYc-KmuUlq5cGu4_iZwmgb4oqVUnNFg&s=10"},
+    {name: "ब्लैक मैजिक — Black Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNnjXB7EniKLvm_GRngMElLIP6_eJk-G71zyGoa2eY5fVkev_ChFhyOE4&s=10"},
+    {name: "चोको ट्रीट — Choco Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuLczR1ZEXwgWjrg5RU1rJjjLuMOAxtG1Cl69LzMesKQ&s=10"},
+    {name: "मिल्क ट्रीट — Milk Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ86EY2vVtXHVVL1F3-uTSyBty0uRKnFGTgGZp5x_evng&s=10"},
+    {name: "चोको पफ — Choco Puff", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtzxjxChvjyW74F425Y3z-taz5fH9CCVgcD1r9VvzHA&s=10"},
+    {name: "ऑरेंज क्रीम — Orange Cream", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFsMZlXI1cLPTjoxZtmM2WTtvCxYKGFHXqlD9N5LYGsw&s=10"},
+    {name: "कोकोनट — Coconut", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ000LIhcsdYQqoxweCU2y8wSRJ1LU5SsvB6A7xVOgAIg&s=10"},
+    {name: "मैजिक ऑरेंज — Magic Orange", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdA3kKiiyprda121MZ9p-VwSi4Ulb-zSklPKLp4Juh0A&s=10"},
+    {name: "स्नैक्स — Snacks", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT9eIZy-pLX6A3nfngJ3SJNarLQRh2YKLk9a5HHJkVDukAYmsA2tSSIGo&s=10"},
+    {name: "दूध बिस्किट — Doodh Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkF-zZ1hJ3S3_Q_3QqZXEw8Jeb5o2cjO68G6vI6iuT3w&s=10"},
+    {name: "हैप्पी हैप्पी — Happy Happy", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwBUQzrfY5hfRskuWIjNY9N6B0Zweucx2YFF6GFibv1Q&s"},
+    {name: "मिल्क बिस्कुट — Milk Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQetdiAzbQvYKKECF6m3eJvEDvAtIL3Am4IOOatll397UUC5PTVG07xZ0r8ASEFjsGTOK7wFSvM7bTUr9jdh_XpbzyV55KrF0eUD_Fgl5NVhFIdWyND-3ptyhmJ4UvxUfEALrkQA10zOJc&usqp=CAc"},
+    {name: "रस — Ras", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8rv4a8KifOd44gKI-8841LYqjUGSaUoUIwVrJDFsO1g&s=10"},
+    {name: "रस — Ras", price: 10, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2022/10/PW/IB/WA/144220875/toast-listings-atta-1-500x500.png"},
+    {name: "रस — Ras", price: 22, unit: "Pkt", img: "https://5.imimg.com/data5/ANDROID/Default/2024/10/455868333/FR/NK/RP/48354284/product-jpeg-500x500.jpg"},
+    {name: "कुरकुरे — Kurkure", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-6iX4axE6V_IikUvTsgU5F2DoM_tuGY0e1edgTCWNA&s=10"},
+    {name: "लेज़ — Lay's", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8L9ajgvYC2_MC9KAMORcYoC2XR9kh6rtaaUNU02UCcA&s=10"},
+    {name: "टकाटक — Taka Tak", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaaEs2Y2bFIcbkGHvBmV7iF0iv9P7S6L2ltl1h0PZs5g&s"},
+    {name: "भुजिया — Bhujia", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcsqYAyoi3bUEhWecfOObukbDjqngCO0SosHxJuVTqjw&s=10"},
+    {name: "मिक्सचर — Mixture", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBumD2T5n2wIlWsWsYx6qONHwKyXV7T8n7v1cpWmHPEQ&s=10"},
+    {name: "पंजाबी तड़का — Punjabi Tadka", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRXwxoH8nHVKnr04Q9HXoGIOaberS94MHTYBn2vfLboA&s=10"},
+    {name: "चिप्स — Chips", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO1aHyoBY6ogUfuGaevjB6EeiaPg2zBL5KS3DUE21tMQ&s"},
+    {name: "मूंग दाल — Moong Dal", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrkWvvMoN4GWODhfbcFZxPU0kQ3qyffeHnDSE1oFklDg&s=10"},
+    {name: "ब्रश (Toothbrush)", price: 10, unit: "Pcs", img: ""}
+];
+
+    const data5 = [
+       {name: "लक्स साबुन (Lux Soap)", price: 10, unit: "Pcs", img: "https://tiimg.tistatic.com/fp/1/007/682/good-bathing-soap-for-smooth-skin-lux-soap--186.jpg"},
+        {name: "डेटॉल साबुन (Dettol Soap)", price: 10, unit: "Pcs", img: "https://rukminim2.flixcart.com/image/300/300/xif0q/soap/i/x/y/-enriched-transparent-original-imagrb5hsgf9h4sq.png"},
+        {name: "मार्गो — Margo", price: 10, unit: "Pcs", img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQXi8AB53NMYxlA74ojvBqx9pfotIEs0rql97S_QHCqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqVKN5kp3B_eKHPMPxQqOOC-3bKSGYZX3ZpuSNkYBtc&usqp=CAc"},
+        {name: "मार्गो — Margo", price: 10, unit: "Pcs", img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQXi8AB53NMYxlA74ojvBqx9pfotIEs0rql97S_QHCqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqVKN5kp3B_eKHPMPxQqOOC-3bKSGYZX3ZpuSNkYBtc&usqp=CAc"},
+        {name: "लाइफबॉय साबुन  (Lifebuoy Soap)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFt8ytaGWTr9V24WMItvuPPYBPkUnga23aWNAL6Favqw&s=10"},
+        {name: "लाइफबॉय साबुन 100g (Lifebuoy Soap)", price: 22, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFt8ytaGWTr9V24WMItvuPPYBPkUnga23aWNAL6Favqw&s=10"},
+       {name: "लक्स साबुन (Lux)", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTDSGA0aW71Vu9ddbli8Y88AyK5POU1-YulgRe30CItWGW8IzucikvcAATd1uOGEbzZh4aPA7_CtoKSF8YIb5iEMfGhaLmqJUhfahWj0oyzu1Y_V_houxEEKDISNtSX4QBFapiQz35WwP8&usqp=CAc"},
+        {name: "डव साबुन (Dove Soap)", price: 15, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXZtCpwM6afb7VCidzMbgb5sW9P_WXNZs_X2z0LPO6PQ&s=10"},
+        {name: "डव साबुन (Dove Soap)", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXZtCpwM6afb7VCidzMbgb5sW9P_WXNZs_X2z0LPO6PQ&s=10"},
+        {name: "पियर्स साबुन (Pears Soap)", price: 15, unit: "Pcs", img: "https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/13698512/2021/3/18/24fc4dbb-836d-4dd2-8fe5-db6d16e1502f1616079906080-Pears-Unisex-Body-Wash-and-Scrub-8351616079905398-1.jpg"},
+        {name: "पियर्स साबुन (Pears Soap)", price: 27, unit: "Pcs", img: "https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/13698512/2021/3/18/24fc4dbb-836d-4dd2-8fe5-db6d16e1502f1616079906080-Pears-Unisex-Body-Wash-and-Scrub-8351616079905398-1.jpg"},
+        {name: "सिनॉल साबुन (Cinthol Soap)", price: 25, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR34vDeWxDp6D6t9NcFKcqvRHuKKwaLQLJyzvI_grEXTw&s=10"},
+        {name: "सर्फ एक्सेल साबुन — Surf Excel", price: 10, unit: "Pkt", img: "https://cdn2.clevup.in/414021/SKU-0209_4-1761274906543.jpg?width=600&format=webp"},
+        {name: "घड़ी 1kg — Ghadi Sabun", price: 70, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-0KU93fNgFiADomEXqrfO2Pdn2q62FxDyqdk1yGiF6w&s=10"},
+        {name: "घड़ी 500g — Ghadi", price: 38, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL3WTB0bbYLfFCKSejX9xSzYu9wN1KWHnzahUeNcAZCg&s=10"},
+        {name: "व्हील 1kg — Wheel", price: 75, unit: "Pcs", img: "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/ciw/2025/12/18/dabe2188-108f-46ed-9bd6-671946f2cfcc_0G747BJJLJ_MN_18122025.png"},
+        {name: "व्हील 500g — Wheel", price: 38, unit: "Pkt", img: "https://www.bazaarkgp.com/product_image/11519475154.jpg"},
+        {name: "गाइड 1kg — Guide", price: 70, unit: "Pcs", img: "https://dukaan.b-cdn.net/1000x1000/webp/586344/f5d5e719-125c-4840-898c-6d45c9fd93f3.png"},
+        {name: "गाइड 500g — Guide", price: 38, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNCFTmMHl4ezuuyFb2zxtMrdZLZmTe90Rr8JYvtM30ng&s"},
+        {name: "सर्फ एक्सेल 1kg — Surf Excel", price: 130, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyucZ4Bo8iJSOYCqPwGhm8nwJhXKLUrgh6waNEnys-hw&s=10"},
+        {name: "सर्फ एक्सेल 500g — Surf Excel", price: 70, unit: "Pkt", img: "https://leeladharstores.com/image/cache/catalog/category/household%20supplies/Laundry%20_%20Detergent/images%20(10)-500x500.jpg"},
+        {name: "सर्फ एक्सेल rs-10 — Surf Excel", price: 10, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_aK_Hm1qSfWJia2vZcdKSLJfRzxOfFuQnDtJKsYgt3A&s=10"},
+        {name: "कोलगेट टूथपेस्ट (Colgate)", price: 10, unit: "Pcs", img: "https://nainji.in/wp-content/uploads/2025/01/20723879-1737377691876.jpg"},
+        {name: "पतंजलि दंत कांति 100g (Dant Kanti)", price: 55, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTZKQQF95r9byE0-SVie81d3_Ef-rUU0Ta-IxU3zI7Jw&s=10"},
+        {name: "पतंजलि दंत कांति (Dant Kanti)", price: 20, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTZKQQF95r9byE0-SVie81d3_Ef-rUU0Ta-IxU3zI7Jw&s=10"},
+        {name: "कोलगेट टूथपेस्ट छोटा (Colgate)", price: 20, unit: "Pcs", img: "https://nainji.in/wp-content/uploads/2025/01/20723879-1737377691876.jpg"},
+        {name: "पतंजलि दंत कांति छोटा (Dant Kanti)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTZKQQF95r9byE0-SVie81d3_Ef-rUU0Ta-IxU3zI7Jw&s=10"},  
+        {name: "पेप्सोडेंट टूथपेस्ट (Pepsodent)", price: 20, unit: "Pcs", img: ""},
+        {name: "क्लोजअप टूथपेस्ट (Closeup)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMLowugGVy1mDUsQpkqcBE7Dxi_oX0GPqEUUG5Lylw8w&s=10"},
+        {name: "ब्रश (Toothbrush)", price: 15, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrDXSd3YpLO6KccdtZle2tXh3UD86JJ8kkywWLrRDV1vkWU0U1PKIMEV0&s=10"},
+        {name: "जीभ छीलने वाला (Tongue Cleaner)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNGox6pW5Cyhqj7HAbK3_v-GTPRsGt0IdOywufkswqzQ&s=10"},
+        {name: "वाटिका शैंपू पाउच (Shampoo Pouch)", price: 1, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkyvMhkNiBlAsGs05Zw-IUlmV--ZoffApYp4hcoo9K9w&s=10"},
+        {name: "क्लिनिक प्लस शैंपू (Clinic Plus)", price: 1, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ0IMPHjDOUOycyFIs7hTAPXHARTZ2lmDkv6dRNx9Pxg&s=10"},
+ {name: "डव शैंपू (Dove)", price: 2, unit: "Pcs", img: "https://m.media-amazon.com/images/I/61YtDTrqP-L._AC_UF350,350_QL80_.jpg"},
+        {name: "संससिल्क शैंपू (Sunsilk Shampoo)", price: 1, unit: "Pcs", img: "https://cpimg.tistatic.com/07398656/b/4/Sunsilk-Shampoo-Pouch.jpg"},
+        {name: "हेड एंड शोल्डर (Head & Shoulders)", price: 2, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHstEwrPdVEIh0psltjaRLth2HQfmdUz2xE6yLTIPEDA&s=10"},
+        {name: "हिमालया फेस वॉश (Himalaya Face Wash) 50g", price: 81, unit: "Pcs", img: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcR_sWmLJ9rEXw1Wx6Ebq_Tigg9bGzD5NhFGnp085tA2caFOOK1cjGgB9T5zGzLX3ZQVC7zigG6-NitdHAKti3VVR7bUt66xm6hUA6BKSVxBzshA3t928mP806QlMGaC68FIyUlYhJG4&usqp=CAc"},
+        {name: "लक्मे फेस वॉश (Lakme Face Wash) 100g", price: 180, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzCv93Fq_fcaIW8wjCRY3Q1u-h61KNFr4bfZCBmz_zvA&s"},
+        {name: "गार्नियर फेस वॉश (Garnier Face Wash) 25g", price: 119, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_JqC9ZA_KGbxeM6iNJ2BV0F1kR3eD3T9bOcUjwLmutg&s=10"},
+        {name: "पैराशूट नारियल तेल (Coconut Oil) 100g", price: 125, unit: "Pcs", img: "https://centerco.co/cdn/shop/files/5914-1200x1200.webp?v=1720881357"},
+        {name: "डाबर आंवला तेल (Dabur Amla Hair Oil) 100g", price: 50, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZSQXT-tOMOYGLkt9FguF8pGddWEqNV9VF0qQL-roWOQ&s=10"},
+        {name: "बजाज बादाम तेल (Bajaj Almond Drops) 100g", price: 85, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrJ6wX7LrXuQ23tf_9s03jnEBlYPb5ZKbx9A9tLFKlA&s=10"},
+        {name: "नवरत्न तेल (Navratna Oil) 100g", price: 85, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWWy7GJFeKzI5dmZPSyPyRRk0v_SgqZUOTFS50-B5_2g&s=10"},
+        {name: "वैसलीन पेट्रोलियम जेली (Vaseline)", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEx0UWM8redFjS33FnmVsHBjC01bUWoblA6uVNdTiiIQ&s"},
+        {name: "बोरोप्लस क्रीम (BoroPlus)", price: 30, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbkWvNHnEgFYiqE5l_Q5fvyXtnwJM28tstQRIn6ZeX1w&s=10"},
+        {name: "ग्लो एंड लवली क्रीम (Glow & Lovely)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeNdCP48K12DMZi8KN9s62JVum33Cn5K4jDFKu6ouQxQ&s=10"},
+        {name: "पाउडर डब्बा (Talcom Powder)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtjql2LPdJtt3UxRUZQix-G2vZqHtIXh-ZH2pVLLdWhg&s=10"},
+        {name: "हैंड वॉश (Hand Wash)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT-rlDP92DniNGi00eGG2nwkKTlqMUTUydxC9Ae2Mmpw&s=10"},
+   { name: "पापड़ – Papad", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLYafQMWo6oyD9UiMzkP8wPjkwn9nrwkLmZIptMy2gpQ&s=10" },
+   { name: "कोलगेट – Colgate", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj-D0cn56qvFafRNoBp8pZQoIekKEg1058U0p7Q9lCVA&s=10" },
+   { name: "निहार नेचुरल नारियल तेल (Nihar Naturals Coconut Oil) 100g ", price: 42, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJWQ-np6-dn9eck12a5c9y2mhfZwVldJkQsIILIb3M4A&s" },
+{ name: "निहार नेचुरल नारियल तेल (Nihar Naturals Coconut Oil) 200g ", price: 85, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPBzXQMdXr1pREiVQ8tr2XVFMV8JX7UTTJ1gIBkYk-aA&s=10" },
+ { name: "निहार नेचुरल नारियल तेल (Nihar Naturals Coconut Oil)  ", price: 20, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPEwASuQaQd0ZclIpFb4lY1r0mzJCFEi8VgYvHJqFOxg&s=10" },
+{ name: "निहार नेचुरल नारियल तेल (Nihar Naturals Coconut Oil) 200g ", price: 80, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuRfEzlzNlK-TjoHjNAXVl91r3zd5HxXkOdMns42YQUg&s=10" },
+{ name: "निहार नेचुरल नारियल तेल (Nihar Naturals Coconut Oil) 400g ", price: 215, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCtNBYHkA4273cLG1qW8YK3MScjbHt5Zt56roUhwkz9w&s=10" },
+ { name: "वाटिका शैंपू – Vatika Shampoo", price: 1, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgbJyFWqZNNjlxwFdAVhDvSfb2sSPflNJV_McR0LBHyg&s" },
+  { name: "चाय वाला गिलास – Chai Wala एक बंडल Glass", price: 15, unit: "Pcs", img: "https://rukminim2.flixcart.com/image/480/480/jve4pe80/glass/h/p/n/disposable-tea-and-coffee-glass-set-pack-of-50-aatrangi-original-imafgay2hzd2edq2.jpeg?q=90" },
+  { name: "पानी वाला गिलास – Pani Wala Glass एक बंडल ", price:40, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSadeRE3O-K_O-WsxNTgTJCGd8dRPN4BO2UmMPwUOTrn3FrF_nztubumBo&s=10" },
+  { name: "पत्ता – Patta एक बंडल", price: 40, unit: "Pcs", img: "https://5.imimg.com/data5/SELLER/Default/2025/1/479467742/GI/YN/QT/224592609/disposable-paper-plate-250x250.png" },
+ {name: "उज्ज्वला नील (Ujala Neel)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5mgrQjqMgT2j_vzfwVLHTpzakekAtBjwQ9onpoeoZ2g&s=10"}
+    ];
+ 
+    window.onload = function() {
+        renderProducts();
+    };
+
+    function renderProducts() {
+        renderSingleGrid('grid1', data1, 'c1');
+        renderSingleGrid('grid2', data2, 'c2');
+        renderSingleGrid('grid3', data3, 'c3');
+        renderSingleGrid('grid4', data4, 'c4');
+        renderSingleGrid('grid5', data5, 'c5');
+    }
+
+    function renderSingleGrid(containerId, dataList, prefix) {
+        let container = document.getElementById(containerId);
+        let html = "";
+        dataList.forEach((item, index) => {
+            let uniqueId = prefix + "_" + index;
+            
+            html += `
+                <div class="product-card">
+                    <img src="${item.img}" alt="सामान" onerror="this.src='https://via.placeholder.com/80?text=GramCart'">
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <div class="price-tag">मूल्य: ₹${item.price} / ${item.unit}</div>
+                        <div class="qty-box">
+                            <input type="number" id="${uniqueId}" class="qty" value="0" min="0" step="any" oninput="calcTotal()" data-price="${item.price}" data-name="${item.name}" data-unit="${item.unit}">
+                            <span class="unit-text">${item.unit}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function toggleSection(sectionId) {
+        let box = document.getElementById(sectionId);
+        if (box.classList.contains('active')) {
+            box.classList.remove('active');
+        } else {
+            document.querySelectorAll('.info-box').forEach(b => b.classList.remove('active'));
+            box.classList.add('active');
+        }
+    }
+
+    function openTab(evt, tabName) {
+        let contents = document.getElementsByClassName("tab-content");
+        for (let c of contents) c.classList.remove("active");
+
+        let buttons = document.getElementsByClassName("tab-btn");
+        for (let b of buttons) b.classList.remove("active");
+
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function searchProducts() {
+        let input = document.getElementById('searchBox').value.toLowerCase();
+        let cards = document.getElementsByClassName('product-card');
+
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].getElementsByTagName('h3')[0];
+            if (title) {
+                let textValue = title.textContent || title.innerText;
+                if (textValue.toLowerCase().indexOf(input) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function calcTotal() {
+        let total = 0;
+        let inputs = document.querySelectorAll('.qty');
+        inputs.forEach(input => {
+            let qty = parseFloat(input.value) || 0;
+            let price = parseFloat(input.getAttribute('data-price')) || 0;
+            total += qty * price;
+        });
+
+        let deliveryFee = 0;
+        if (total > 0 && total < 200) {
+            deliveryFee = 10;
+        } else if (total >= 500) {
+            deliveryFee = 0;
+        }
+
+        let isUrgent = document.getElementById('urgentDelivery').checked;
+        if (isUrgent && total > 0) {
+            deliveryFee += 20;
+        }
+
+        let grandTotal = total + deliveryFee;
+        document.getElementById('totalAmount').innerText = "₹" + Math.round(grandTotal * 100) / 100;
+    }
+
+    function sendToWhatsApp() {
+        let name = document.getElementById('custName').value.trim();
+        let phone = document.getElementById('custPhone').value.trim();
+        let village = document.getElementById('custVillage').value.trim();
+        let ward = document.getElementById('custWard').value.trim();
+        let landmark = document.getElementById('custLandmark').value.trim();
+        let extraItem = document.getElementById('extraItemName').value.trim();
+        
+        if(!name || !village || !phone) {
+            alert("कृपया अपना नाम, मोबाइल नंबर और गांव का नाम भरें!");
+            return;
+        }
+
+        let message = `नमस्ते ग्रामकार्ट, मुझे निम्नलिखित सामान चाहिए:%0A`;
+        let hasItem = false;
+        let total = 0;
+
+        let inputs = document.querySelectorAll('.qty');
+        inputs.forEach(input => {
+            let qty = parseFloat(input.value) || 0;
+            if(qty > 0) {
+                hasItem = true;
+                let itemName = input.getAttribute('data-name');
+                let unit = input.getAttribute('data-unit');
+                let price = parseFloat(input.getAttribute('data-price')) || 0;
+                let cost = Math.round((qty * price) * 100) / 100;
+                total += cost;
+                message += `- ${itemName}: ${qty} ${unit} (₹${cost})%0A`;
+            }
+        });
+
+        if(extraItem !== "") {
+            hasItem = true;
+            message += `%0A*अन्य सामान (Extra Items):*%0A- ${extraItem}%0A`;
+        }
+
+        if(!hasItem) {
+            alert("कृपया कम से कम एक सामान चुनें या अतिरिक्त सामान का नाम लिखें!");
+            return;
+        }
+
+        let deliveryFee = 0;
+        let deliveryText = "मुफ्त (₹0)";
+
+        if (total > 0 && total < 200) {
+            deliveryFee = 10;
+            deliveryText = "₹10";
+        } else if (total >= 500) {
+            deliveryFee = 0;
+            deliveryText = "मुफ्त (₹0)";
+        }
+
+        let isUrgent = document.getElementById('urgentDelivery').checked;
+        if (isUrgent) {
+            deliveryFee += 20;
+            deliveryText += " + अर्जेंट डिलीवरी (+₹20)";
+        }
+
+        let grandTotal = total + deliveryFee;
+
+      message += `%0A------------------------%0A`;
+        message += `सामान का कुल मूल्य: ₹${Math.round(total * 100) / 100}%0A`;
+        message += `डिलीवरी चार्ज: ${deliveryText}%0A`;
+        message += `कुल देय राशि (Grand Total): ₹${Math.round(grandTotal * 100) / 100}%0A`;
+        message += `------------------------%0A`;
+        message += `*ग्राहक का विवरण:*%0A`;
+        message += `नाम: ${name}%0A`;
+        message += `मोबाइल: ${phone}%0A`;
+        message += `गांव: ${village}%0A`;
+        message += `वार्ड: ${ward || 'लागू नहीं'}%0A`;
+        message += `लैंडमार्क: ${landmark || 'लागू नहीं'}%0A`;
+        
+        // यह लाइन लाइव लोकेशन को मैसेज में जोड़ने के लिए है
+        let locationLink = document.getElementById('sellerLocation') ? document.getElementById('sellerLocation').value : '';
+        message += `गूगल मैप लोकेशन: ${locationLink ? locationLink : 'लोकेशन नहीं दी गई'}%0A`;
+
+        let whatsappNumber = "919546125299"; 
+        let url = `https://wa.me/${whatsappNumber}?text=${message}`;
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
