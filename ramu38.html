@@ -18,12 +18,14 @@
         .container { max-width: 1200px; margin: 20px auto; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
         .top-action-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .action-btn { background-color: #e67e22; color: white; border: none; padding: 10px 18px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; }
+        .action-btn { background-color: #e67e22; color: white; border: none; padding: 10px 18px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; text-decoration: none; }
         .action-btn:hover { background-color: #d35400; }
         .action-btn.services { background-color: #2980b9; }
         .action-btn.services:hover { background-color: #1f618d; }
         .action-btn.pwa-btn { background-color: #8e44ad; }
         .action-btn.pwa-btn:hover { background-color: #732d91; }
+        .action-btn.location-btn { background-color: #27ae60; }
+        .action-btn.location-btn:hover { background-color: #1e8449; }
 
         .info-box { background: #fff8e1; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; }
         .info-box.active { display: block; }
@@ -61,8 +63,9 @@
         .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 200px; }
 
-        .extra-item-box { background: #f4ecf7; border: 1px solid #d7bde2; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
-        .extra-item-box h4 { margin: 0 0 6px; color: #7d3c98; font-size: 14px; }
+        .feedback-box { background: #eafaf1; border: 1px solid #a9dfbf; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+        .feedback-box h4 { margin: 0 0 8px; color: #196f3d; font-size: 14px; }
+        .feedback-options { display: flex; gap: 15px; flex-wrap: wrap; font-size: 14px; color: #145a32; font-weight: bold; cursor: pointer; }
 
         .urgent-delivery-box { background: #fef9e7; border: 1px solid #f9e79f; padding: 10px 12px; border-radius: 6px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #7d6608; font-weight: bold; cursor: pointer; }
         .urgent-delivery-box input { width: 18px; height: 18px; cursor: pointer; }
@@ -74,11 +77,8 @@
 <body>
 
 <header>
-    <!-- सुंदर और आकर्षक ऐप लोगो (Logo Design) -->
     <div style="width: 110px; height: 110px; background: linear-gradient(135deg, #27ae60, #1e8449); border-radius: 26px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(0,0,0,0.3); border: 3px solid #f1c40f; margin: 0 auto 15px auto;">
-        <!-- बड़ा GC अक्षर -->
         <span style="color: #ffffff; font-size: 42px; font-weight: bold; font-family: Arial, sans-serif; line-height: 1; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">GC</span>
-        <!-- नीचे छोटा हिंदी नाम -->
         <span style="color: #f1c40f; font-size: 13px; font-weight: bold; font-family: Arial, sans-serif; margin-top: 4px; letter-spacing: 0.5px;">ग्रामकार्ट</span>
     </div>
 
@@ -98,22 +98,20 @@
     <div class="top-action-bar">
         <button class="action-btn" onclick="toggleSection('noticeBox')">📢 आवश्यक सूचना</button>
         <button class="action-btn services" onclick="toggleSection('servicesBox')">🔗 अन्य सेवाएं</button>
+        <button class="action-btn location-btn" onclick="toggleSection('locationBox')">📍 लाइव लोकेशन कैसे भेजें?</button>
         <button class="action-btn pwa-btn" onclick="toggleSection('installBox')">📲 होम स्क्रीन पर ऐप जोड़ें</button>
     </div>
 
     <div id="noticeBox" class="info-box">
-    <h3>📢 स्टोर की जरूरी जानकारियां और नियम:</h3>
-    <ul>
-        <li>स्टोर खुलने का समय: सुबह 7:00 बजे से रात्रि 9:00 बजे तक।</li>
-        <li>शाम 6:00 बजे के बाद किसी भी प्रकार की इमरजेंसी डिलीवरी नहीं की जाएगी।</li>
-        <li>सभी सामान उचित बाजार मूल्य और शुद्धता की गारंटी के साथ दिए जाते हैं।</li>
-        <li><strong>तौल और मात्रा का नियम (Kg में):</strong> यदि आपको 500 ग्राम चाहिए तो <strong>0.5</strong> टाइप करें, 250 ग्राम के लिए <strong>0.25</strong> टाइप करें, 200 ग्राम के लिए <strong>0.2</strong> और 100 ग्राम के लिए <strong>0.1</strong> टाइप करें।</li>
-        <li>विशेष त्योहारों पर छूट और ऑफर्स के लिए जुड़े रहें।</li>
-        <li>ऑर्डर करने के बाद अपना सही डिलीवरी पता और संपर्क नंबर जरूर भरें।</li>
-        <li><strong>यदि आपको ऐप चलाने में कोई भी दिक्कत हो, तो कृपया हमारे मोबाइल नंबर 9546125299 पर संपर्क करें।</strong></li>
-        <li>किसी भी सवाल या सहायता के लिए व्हाट्सएप पर सीधे संपर्क करें।</li>
-    </ul>
-</div>
+        <h3>📢 स्टोर की जरूरी जानकारियां और नियम:</h3>
+        <ul>
+            <li>स्टोर खुलने का समय: सुबह 7:00 बजे से रात्रि 9:00 बजे तक।</li>
+            <li>सभी सामान उचित बाजार मूल्य और शुद्धता की गारंटी के साथ दिए जाते हैं।</li>
+            <li>विशेष त्योहारों पर छूट और ऑफर्स के लिए जुड़े रहें।</li>
+            <li>ऑर्डर करने के बाद अपना सही डिलीवरी पता और संपर्क नंबर जरूर भरें।</li>
+            <li><strong>विशेष टिप:</strong> आर्डर भेजने के बाद व्हाट्सएप पर अपनी **लाइव लोकेशन (Live Location)** जरूर शेयर करें ताकि डिलीवरी बॉय आपके घर तक तुरंत पहुंच सके।</li>
+        </ul>
+    </div>
 
     <div id="servicesBox" class="info-box" style="background: #eaf2f8; border-color: #aed6f1;">
         <h3 style="color: #2980b9;">🔗 हमारी अन्य सेवाएं और लिंक्स:</h3>
@@ -126,11 +124,21 @@
         </ul>
     </div>
 
+    <div id="locationBox" class="info-box" style="background: #eafaf1; border-color: #a3e4d7;">
+        <h3 style="color: #117a65;">📍 व्हाट्सएप पर लाइव लोकेशन भेजने का तरीका (स्टेप-बाय-स्टेप):</h3>
+        <ul>
+            <li>सबसे पहले अपने फोन में **WhatsApp** खोलें और ग्रामकार्ट (स्टोर) की चैट पर जाएं।</li>
+            <li>चैट बॉक्स के अंदर नीचे की तरफ दिए गए **पिन या पेपर क्लिप जैसे आइकॉन (Attachment Icon 📎)** पर क्लिक करें।</li>
+            <li>इसके बाद सूची में से **"Location" (लोकेशन)** विकल्प को चुनें।</li>
+            <li>अब **"Share Live Location" (शेयर लाइव लोकेशन)** पर क्लिक करें और समय सीमा (जैसे 1 घंटा) चुनकर सेंड कर दें। इससे डिलीवरी बॉय आसानी से आपके घर पहुंच जाएगा!</li>
+        </ul>
+    </div>
+
     <div id="installBox" class="info-box" style="background: #f5eef8; border-color: #d7bde2;">
         <h3 style="color: #8e44ad;">📲 ग्रामकार्ट को अपने फोन की होम स्क्रीन पर कैसे सेव करें?</h3>
         <ul>
             <li><strong>मोबाइल (Android/iPhone) में:</strong> अपने ब्राउज़र (Chrome/Safari) के ऊपर दाईं ओर दिए गए **तीन बिंदुओं (Menu ⋮)** पर क्लिक करें।</li>
-            <li>सूची में से **"Add to Home Screen (install and create shortcut)   "** या **"होम स्क्रीन पर जोड़ें"** के विकल्प को चुनें।</li>
+            <li>सूची में से **"Add to Home Screen"** या **"होम स्क्रीन पर जोड़ें"** के विकल्प को चुनें।</li>
             <li>इसके बाद आपके फोन की होम स्क्रीन पर यह ऐप की तरह दिखने लगेगा और आप एक क्लिक से इसे खोल सकेंगे!</li>
         </ul>
     </div>
@@ -143,8 +151,9 @@
         <button class="tab-btn active" onclick="openTab(event, 'tab1')">🌾 1. अनाज एवं राशन</button>
         <button class="tab-btn" onclick="openTab(event, 'tab2')">🛢️ 2. तेल एवं मसाले</button>
         <button class="tab-btn" onclick="openTab(event, 'tab3')">🪔 3. पूजा एवं घरेलू</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab4')">🍪  4. बिस्कुट एवं स्नैक्स</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab5')">🧴  5. साबुन एवं देखभाल</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">🧴 4. साबुन एवं देखभाल</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">🍪 5. बिस्कुट एवं स्नैक्स</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab6')">🥛 6. दूध व ठंडे पेय (सुविधा)</button>
     </div>
 
     <div id="tab1" class="tab-content active">
@@ -163,13 +172,18 @@
     </div>
 
     <div id="tab4" class="tab-content">
-        <h2>बिस्कुट, नमकीन और पैक्ड फूड्स</h2>
+        <h2>साबुन, तेल और पर्सनल केयर</h2>
         <div class="product-grid" id="grid4"></div>
     </div>
 
     <div id="tab5" class="tab-content">
-        <h2>साबुन, तेल और पर्सनल केयर</h2>
+        <h2>बिस्कुट, नमकीन और पैक्ड फूड्स</h2>
         <div class="product-grid" id="grid5"></div>
+    </div>
+
+    <div id="tab6" class="tab-content">
+        <h2>दूध, ठंडे पेय और अन्य सुविधा सामान</h2>
+        <div class="product-grid" id="grid6"></div>
     </div>
 
     <div class="cart-section">
@@ -178,34 +192,39 @@
         <div class="form-row">
             <div class="form-group">
                 <label>ग्राहक का नाम:</label>
-                <input type="text" id="custName" class="input-field" placeholder="अपना पूरा नाम दर्ज करें">
+                <input type="text" id="custName" class="input-field" placeholder="अपना पूरा नाम दर्ज करें" oninput="saveUserData()">
             </div>
             <div class="form-group">
                 <label>मोबाइल नंबर (व्हाट्सएप नंबर):</label>
-                <input type="tel" id="custPhone" class="input-field" placeholder="10 अंकों का मोबाइल नंबर दर्ज करें">
+                <input type="tel" id="custPhone" class="input-field" placeholder="10 अंकों का मोबाइल नंबर दर्ज करें" oninput="saveUserData()">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
                 <label>गांव / मोहल्ला:</label>
-                <input type="text" id="custVillage" class="input-field" placeholder="गांव या मोहल्ले का नाम">
+                <input type="text" id="custVillage" class="input-field" placeholder="गांव या मोहल्ले का नाम" oninput="saveUserData()">
             </div>
             <div class="form-group">
                 <label>वार्ड नंबर:</label>
-                <input type="text" id="custWard" class="input-field" placeholder="जैसे: वार्ड नं. 05">
+                <input type="text" id="custWard" class="input-field" placeholder="जैसे: वार्ड नं. 05" oninput="saveUserData()">
             </div>
         </div>
 
         <label>आसपास की प्रसिद्ध जगह (Landmark):</label>
-        <input type="text" id="custLandmark" class="input-field" placeholder="जैसे: मंदिर के पास, स्कूल के सामने, मुखिया जी के घर के पास आदि">
+        <input type="text" id="custLandmark" class="input-field" placeholder="जैसे: मंदिर के पास, स्कूल के सामने, मुखिया जी के घर के पास आदि" oninput="saveUserData()">
 
-        <div class="extra-item-box">
-            <h4>📷 जो सामान ऐप पर नहीं है, उसका नाम यहाँ लिखें:</h4>
-            <input type="text" id="extraItemName" class="input-field" style="margin-bottom: 5px; background: #fff;" placeholder="जैसे: कोई खास दवा, सब्जी या अन्य सामान">
-            <span style="font-size: 12px; color: #512e5f; display: block; line-height: 1.4;">
-                💡 <strong>नोट:</strong> व्हाट्सएप पर मैसेज भेजने के बाद आप उस सामान की फोटो भी चैट में भेज सकते हैं।
-            </span>
+        <!-- अन्य सामान का बॉक्स (बिना ऑटो-सेव सिस्टम के) -->
+        <label>अन्य सामान (यदि कोई सूची में न हो तो यहाँ लिखकर बताएं):</label>
+        <textarea id="extraItems" class="input-field" rows="3" placeholder="यहाँ अपने अन्य जरूरी सामानों के नाम और मात्रा लिखें (जैसे: दवाई, हरी सब्जी, या कोई अन्य वस्तु)..." autocomplete="off"></textarea>
+
+        <div class="feedback-box">
+            <h4>⭐ आप हमारी सेवा से कितने संतुष्ट हैं? (फीडबैक चुनें):</h4>
+            <div class="feedback-options">
+                <label><input type="radio" name="feedback" value="बहुत संतुष्ट (सेवा और रेट बहुत अच्छे हैं)" checked> 😊 बहुत संतुष्ट</label>
+                <label><input type="radio" name="feedback" value="ठीक-ठाक (सुधार की गुंजाइश है)"> 😐 ठीक-ठाक</label>
+                <label><input type="radio" name="feedback" value="असंतोषजनक (रेट या सेवा में समस्या है)"> 😞 असंतोषजनक</label>
+            </div>
         </div>
 
         <label class="urgent-delivery-box">
@@ -217,12 +236,12 @@
         
         <div class="delivery-rules">
             <strong>🚚 डिलीवरी और मूल्य नियम:</strong><br>
-            • ₹200 से कम की खरीदारी पर: <strong>₹00 डिलीवरी चार्ज</strong><br>
+            • ₹200 से कम की खरीदारी पर: <strong>₹10 डिलीवरी चार्ज</strong><br>
             • ₹200 से ₹500 के बीच: सामान्य नियम लागू<br>
             • ₹500 से अधिक की खरीदारी पर: <strong>फ्री डिलीवरी (₹0 / Free)</strong><br>
             • 1 घंटे वाली अर्जेंट डिलीवरी पर अतिरिक्त ₹20 चार्ज लगेगा。<br>
-            • <em>विशेष मूल्य नोट:</em> बाजार के उतार-चढ़ाव या रेट अपडेट में देरी के कारण यदि किसी सामान के दाम में हल्का अंतर होगा, तो **ऑर्डर वाले दिन का वास्तविक बाजार मूल्य** मान्य होगा。<br>
-            • <em>ब्रांड और क्वालिटी:</em> बाजार में अलग-अलग ब्रांड और क्वालिटी उपलब्ध होती है, इसलिए यदि किसी उत्पाद का दाम अधिक लगे तो कृपया व्हाट्सएप पर संपर्क करें।
+            • <em>विशेष निर्देश:</em> ऑनलाइन ऑर्डर व्हाट्सएप पर करने के बाद नीचे अपने व्हाट्सएप से लाइव लोकेशन शेयर कर दें ताकि सामान जल्द से जल्द आपके यहाँ पहुँच जाए।<br>
+            • <em>विशेष मूल्य नोट:</em> बाजार के उतार-चढ़ाव या रेट अपडेट में देरी के कारण यदि किसी सामान के दाम में हल्का अंतर होगा, तो **ऑर्डर वाले दिन का वास्तविक बाजार मूल्य** मान्य होगा।
         </div>
     </div>
 </div>
@@ -268,7 +287,7 @@
  {name: "खेसारी बेसन khesari besan", price: 60, unit: "kg", img: "https://static.toiimg.com/thumb/87460265.jpg?photoid=87460265&imgsize=64448&width=375&height=210&resizemode=75"}
     ];
 
-   const data2 = [
+      const data2 = [
     { name: "शुद्ध सरसों तेल (Mustard Oil)", price: 175, unit: "Ltr", img: "https://sabziadda.com/wp-content/uploads/2014/01/Scooter-Mustard-Oil-1L.jpg" },
     { name: "सरसों तेल छोटा पैक (Small Pack)", price: 90, unit: "Pkt", img: "https://rukminim2.flixcart.com/image/480/480/xif0q/edible-oil/s/y/8/500-kachi-ghani-pouch-1-mustard-oil-scooter-original-imagzjcjjeefxeqy.jpeg?q=20" },
     { name: "रिफाइंड तेल (Refined Oil)", price: 140, unit: "Ltr", img: "https://m.media-amazon.com/images/I/612KEkQnTJL._AC_UF894,1000_QL80_.jpg" },
@@ -317,7 +336,6 @@
  { name: "सेंधा नमक – Sendha Namak", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3DREMn0G3rKPD6JYuYy5zgS5zdTh15iAuv_Sd7mG9nw&s=10" },
     { name: "तेज पत्ता (Tej Patta)", price: 100, unit: "kg", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbSzvQOCi5rE_3HTyQ7BTbkvWXHKczfhXIFDbHJaUTDOtV2wjy7Xq3di8&s=10" }
 ];
-
     const data3 = [
     {name: "अगरबत्ती (Agarbatti)", price: 10, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROfSnOILOsDKnD1CmUjznDY2TYEdocTWD3-N9wVV2xhjxKe7uUdtxpKaA&s=10"},
     {name: "अगरबत्ती (Agarbatti)", price: 20, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqeqcFR99JIwCIZ3vevNxQZK_XJGf_LWeay42vKn_zZKy7VmbfPIZhEuc&s=10"},
@@ -367,47 +385,8 @@
     {name: "माचिस (Machis) 10p", price: 9, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiimIxNN9b8-oJ1cUsj0ZGszvH34leYQCtlv37JLgJyQ&s"}
    ];
 
-const data4 = [
-    {name: "मेरीगोल्ड — Marie Gold", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjkZImEIPRXcLrM31ZYGfAM1HqT2IvMtqc_rYKJScWbw&s=10"},
-    {name: "मेरीगोल्ड — Marie Gold", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShwIL1By2F-E-8ZkBihovrYlu0J8Cv7M8H4Lfmi1lXLQ&s=10"},
-    {name: "मेरीगोल्ड — Marie Gold", price: 40, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl7IiAqZLuid6dSJ0xgXrVpqr9uqDvUeVd1Eh5z_kMMA&s=10"},
-    {name: "टॉप स्टार — Top Star", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMd4o1ifvSbD3JNgwziWIiTJ_nssurmgVyWLTAPOCZ8A&s=10"},
-    {name: "टॉप स्टार — Top Star", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-_5zDxAJUoOZ_pDslsGBmq9PW_AkGFXFJAT-2oxfbw&s=10"}, 
-    {name: " —jick  Jack", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
- {name: " —jick  Jack", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
-    {name: "धूम — Dhoom", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfISwIf6jrzX8AZ0EvPI2q0Aj0Esi5guuIGWxHgcWCXQ&s=10"},
-    {name: "पारले-जी — Parle-G", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ2IW-tXtPOiWDShmwyZN7Nps5wV2ncbNwuVAtoHAZ0g&s=10"},
-    {name: "टॉप — Top", price: 5, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
-    {name: "टॉप — Top", price: 10, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
-    {name: "टॉप — Top", price: 20, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
-    {name: "फ्रूटी मैजिक — Fruity Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdGEicOoyzBoOYc-KmuUlq5cGu4_iZwmgb4oqVUnNFg&s=10"},
-    {name: "ब्लैक मैजिक — Black Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNnjXB7EniKLvm_GRngMElLIP6_eJk-G71zyGoa2eY5fVkev_ChFhyOE4&s=10"},
-    {name: "चोको ट्रीट — Choco Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuLczR1ZEXwgWjrg5RU1rJjjLuMOAxtG1Cl69LzMesKQ&s=10"},
-    {name: "मिल्क ट्रीट — Milk Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ86EY2vVtXHVVL1F3-uTSyBty0uRKnFGTgGZp5x_evng&s=10"},
-    {name: "चोको पफ — Choco Puff", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtzxjxChvjyW74F425Y3z-taz5fH9CCVgcD1r9VvzHA&s=10"},
-    {name: "ऑरेंज क्रीम — Orange Cream", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFsMZlXI1cLPTjoxZtmM2WTtvCxYKGFHXqlD9N5LYGsw&s=10"},
-    {name: "कोकोनट — Coconut", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ000LIhcsdYQqoxweCU2y8wSRJ1LU5SsvB6A7xVOgAIg&s=10"},
-    {name: "मैजिक ऑरेंज — Magic Orange", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdA3kKiiyprda121MZ9p-VwSi4Ulb-zSklPKLp4Juh0A&s=10"},
-    {name: "स्नैक्स — Snacks", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT9eIZy-pLX6A3nfngJ3SJNarLQRh2YKLk9a5HHJkVDukAYmsA2tSSIGo&s=10"},
-    {name: "दूध बिस्किट — Doodh Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkF-zZ1hJ3S3_Q_3QqZXEw8Jeb5o2cjO68G6vI6iuT3w&s=10"},
-    {name: "हैप्पी हैप्पी — Happy Happy", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwBUQzrfY5hfRskuWIjNY9N6B0Zweucx2YFF6GFibv1Q&s"},
-    {name: "मिल्क बिस्कुट — Milk Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQetdiAzbQvYKKECF6m3eJvEDvAtIL3Am4IOOatll397UUC5PTVG07xZ0r8ASEFjsGTOK7wFSvM7bTUr9jdh_XpbzyV55KrF0eUD_Fgl5NVhFIdWyND-3ptyhmJ4UvxUfEALrkQA10zOJc&usqp=CAc"},
-    {name: "रस — Ras", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8rv4a8KifOd44gKI-8841LYqjUGSaUoUIwVrJDFsO1g&s=10"},
-    {name: "रस — Ras", price: 10, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2022/10/PW/IB/WA/144220875/toast-listings-atta-1-500x500.png"},
-    {name: "रस — Ras", price: 22, unit: "Pkt", img: "https://5.imimg.com/data5/ANDROID/Default/2024/10/455868333/FR/NK/RP/48354284/product-jpeg-500x500.jpg"},
-    {name: "कुरकुरे — Kurkure", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-6iX4axE6V_IikUvTsgU5F2DoM_tuGY0e1edgTCWNA&s=10"},
-    {name: "लेज़ — Lay's", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8L9ajgvYC2_MC9KAMORcYoC2XR9kh6rtaaUNU02UCcA&s=10"},
-    {name: "टकाटक — Taka Tak", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaaEs2Y2bFIcbkGHvBmV7iF0iv9P7S6L2ltl1h0PZs5g&s"},
-    {name: "भुजिया — Bhujia", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcsqYAyoi3bUEhWecfOObukbDjqngCO0SosHxJuVTqjw&s=10"},
-    {name: "मिक्सचर — Mixture", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBumD2T5n2wIlWsWsYx6qONHwKyXV7T8n7v1cpWmHPEQ&s=10"},
-    {name: "पंजाबी तड़का — Punjabi Tadka", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRXwxoH8nHVKnr04Q9HXoGIOaberS94MHTYBn2vfLboA&s=10"},
-    {name: "चिप्स — Chips", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO1aHyoBY6ogUfuGaevjB6EeiaPg2zBL5KS3DUE21tMQ&s"},
-    {name: "मूंग दाल — Moong Dal", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrkWvvMoN4GWODhfbcFZxPU0kQ3qyffeHnDSE1oFklDg&s=10"},
-    {name: "ब्रश (Toothbrush)", price: 10, unit: "Pcs", img: ""}
-];
-
-    const data5 = [
-       {name: "लक्स साबुन (Lux Soap)", price: 10, unit: "Pcs", img: "https://tiimg.tistatic.com/fp/1/007/682/good-bathing-soap-for-smooth-skin-lux-soap--186.jpg"},
+    const data4 = [
+         {name: "लक्स साबुन (Lux Soap)", price: 10, unit: "Pcs", img: "https://tiimg.tistatic.com/fp/1/007/682/good-bathing-soap-for-smooth-skin-lux-soap--186.jpg"},
         {name: "डेटॉल साबुन (Dettol Soap)", price: 10, unit: "Pcs", img: "https://rukminim2.flixcart.com/image/300/300/xif0q/soap/i/x/y/-enriched-transparent-original-imagrb5hsgf9h4sq.png"},
         {name: "मार्गो — Margo", price: 10, unit: "Pcs", img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQXi8AB53NMYxlA74ojvBqx9pfotIEs0rql97S_QHCqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqVKN5kp3B_eKHPMPxQqOOC-3bKSGYZX3ZpuSNkYBtc&usqp=CAc"},
         {name: "मार्गो — Margo", price: 10, unit: "Pcs", img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQXi8AB53NMYxlA74ojvBqx9pfotIEs0rql97S_QHCqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqPTxYIoxhWLAZetWjJGcr4qssF7JM2BbbUQ0kjcydgXT5k3k0A6sJXxGaYqVKN5kp3B_eKHPMPxQqOOC-3bKSGYZX3ZpuSNkYBtc&usqp=CAc"},
@@ -468,10 +447,74 @@ const data4 = [
   { name: "पत्ता – Patta एक बंडल", price: 40, unit: "Pcs", img: "https://5.imimg.com/data5/SELLER/Default/2025/1/479467742/GI/YN/QT/224592609/disposable-paper-plate-250x250.png" },
  {name: "उज्ज्वला नील (Ujala Neel)", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5mgrQjqMgT2j_vzfwVLHTpzakekAtBjwQ9onpoeoZ2g&s=10"}
     ];
- 
+
+    const data5 = [
+        {name: "मेरीगोल्ड — Marie Gold", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjkZImEIPRXcLrM31ZYGfAM1HqT2IvMtqc_rYKJScWbw&s=10"},
+    {name: "मेरीगोल्ड — Marie Gold", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShwIL1By2F-E-8ZkBihovrYlu0J8Cv7M8H4Lfmi1lXLQ&s=10"},
+    {name: "मेरीगोल्ड — Marie Gold", price: 40, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl7IiAqZLuid6dSJ0xgXrVpqr9uqDvUeVd1Eh5z_kMMA&s=10"},
+    {name: "टॉप स्टार — Top Star", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMd4o1ifvSbD3JNgwziWIiTJ_nssurmgVyWLTAPOCZ8A&s=10"},
+    {name: "टॉप स्टार — Top Star", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-_5zDxAJUoOZ_pDslsGBmq9PW_AkGFXFJAT-2oxfbw&s=10"}, 
+    {name: " —jick  Jack", price: 10, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
+ {name: " —jick  Jack", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoW_4dtmU0iSGpXY9IisjwcvC2WgB33JNoiVeSrdWrw&s=10"},
+    {name: "धूम — Dhoom", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfISwIf6jrzX8AZ0EvPI2q0Aj0Esi5guuIGWxHgcWCXQ&s=10"},
+    {name: "पारले-जी — Parle-G", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ2IW-tXtPOiWDShmwyZN7Nps5wV2ncbNwuVAtoHAZ0g&s=10"},
+    {name: "टॉप — Top", price: 5, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "टॉप — Top", price: 10, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "टॉप — Top", price: 20, unit: "Pcs", img: "https://m.media-amazon.com/images/I/51eaDHI3WIL._AC_UF894,1000_QL80_.jpg"},
+    {name: "फ्रूटी मैजिक — Fruity Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdGEicOoyzBoOYc-KmuUlq5cGu4_iZwmgb4oqVUnNFg&s=10"},
+    {name: "ब्लैक मैजिक — Black Magic", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNnjXB7EniKLvm_GRngMElLIP6_eJk-G71zyGoa2eY5fVkev_ChFhyOE4&s=10"},
+    {name: "चोको ट्रीट — Choco Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuLczR1ZEXwgWjrg5RU1rJjjLuMOAxtG1Cl69LzMesKQ&s=10"},
+    {name: "मिल्क ट्रीट — Milk Treat", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ86EY2vVtXHVVL1F3-uTSyBty0uRKnFGTgGZp5x_evng&s=10"},
+    {name: "चोको पफ — Choco Puff", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrtzxjxChvjyW74F425Y3z-taz5fH9CCVgcD1r9VvzHA&s=10"},
+    {name: "ऑरेंज क्रीम — Orange Cream", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFsMZlXI1cLPTjoxZtmM2WTtvCxYKGFHXqlD9N5LYGsw&s=10"},
+    {name: "कोकोनट — Coconut", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ000LIhcsdYQqoxweCU2y8wSRJ1LU5SsvB6A7xVOgAIg&s=10"},
+    {name: "मैजिक ऑरेंज — Magic Orange", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdA3kKiiyprda121MZ9p-VwSi4Ulb-zSklPKLp4Juh0A&s=10"},
+    {name: "स्नैक्स — Snacks", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT9eIZy-pLX6A3nfngJ3SJNarLQRh2YKLk9a5HHJkVDukAYmsA2tSSIGo&s=10"},
+    {name: "दूध बिस्किट — Doodh Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkF-zZ1hJ3S3_Q_3QqZXEw8Jeb5o2cjO68G6vI6iuT3w&s=10"},
+    {name: "हैप्पी हैप्पी — Happy Happy", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwBUQzrfY5hfRskuWIjNY9N6B0Zweucx2YFF6GFibv1Q&s"},
+    {name: "मिल्क बिस्कुट — Milk Biscuit", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQetdiAzbQvYKKECF6m3eJvEDvAtIL3Am4IOOatll397UUC5PTVG07xZ0r8ASEFjsGTOK7wFSvM7bTUr9jdh_XpbzyV55KrF0eUD_Fgl5NVhFIdWyND-3ptyhmJ4UvxUfEALrkQA10zOJc&usqp=CAc"},
+    {name: "रस — Ras", price: 5, unit: "Pkt", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8rv4a8KifOd44gKI-8841LYqjUGSaUoUIwVrJDFsO1g&s=10"},
+    {name: "रस — Ras", price: 10, unit: "Pkt", img: "https://5.imimg.com/data5/SELLER/Default/2022/10/PW/IB/WA/144220875/toast-listings-atta-1-500x500.png"},
+    {name: "रस — Ras", price: 22, unit: "Pkt", img: "https://5.imimg.com/data5/ANDROID/Default/2024/10/455868333/FR/NK/RP/48354284/product-jpeg-500x500.jpg"},
+    {name: "कुरकुरे — Kurkure", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-6iX4axE6V_IikUvTsgU5F2DoM_tuGY0e1edgTCWNA&s=10"},
+    {name: "लेज़ — Lay's", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8L9ajgvYC2_MC9KAMORcYoC2XR9kh6rtaaUNU02UCcA&s=10"},
+    {name: "टकाटक — Taka Tak", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaaEs2Y2bFIcbkGHvBmV7iF0iv9P7S6L2ltl1h0PZs5g&s"},
+    {name: "भुजिया — Bhujia", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcsqYAyoi3bUEhWecfOObukbDjqngCO0SosHxJuVTqjw&s=10"},
+    {name: "मिक्सचर — Mixture", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBumD2T5n2wIlWsWsYx6qONHwKyXV7T8n7v1cpWmHPEQ&s=10"},
+    {name: "पंजाबी तड़का — Punjabi Tadka", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRXwxoH8nHVKnr04Q9HXoGIOaberS94MHTYBn2vfLboA&s=10"},
+    {name: "चिप्स — Chips", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO1aHyoBY6ogUfuGaevjB6EeiaPg2zBL5KS3DUE21tMQ&s"},
+    {name: "मूंग दाल — Moong Dal", price: 5, unit: "Pcs", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrkWvvMoN4GWODhfbcFZxPU0kQ3qyffeHnDSE1oFklDg&s=10"},
+    {name: "ब्रश (Toothbrush)", price: 10, unit: "Pcs", img: ""}
+];
+
+    // छठा सेक्शन (दूध, स्प्राइट व अन्य सुविधा सामान के लिए) - यहाँ आप अपने अनुसार नाम, कीमत, यूनिट और इमेज लिंक खुद डाल सकते हैं
+    const data6 = [
+        {name: "पैकेट दूध (Milk Packet)", price: 30, unit: "Pkt", img: ""},
+        {name: "स्प्राइट कोल्ड ड्रिंक (Sprite)", price: 40, unit: "Pcs", img: ""},
+        {name: "ठंडा पानी बोतल (Water Bottle)", price: 20, unit: "Pcs", img: ""},
+        {name: "दही पैकेट (Curd Packet)", price: 35, unit: "Pkt", img: ""}
+    ];
+
     window.onload = function() {
         renderProducts();
+        loadUserData();
     };
+
+    function saveUserData() {
+        localStorage.setItem('gramcart_name', document.getElementById('custName').value);
+        localStorage.setItem('gramcart_phone', document.getElementById('custPhone').value);
+        localStorage.setItem('gramcart_village', document.getElementById('custVillage').value);
+        localStorage.setItem('gramcart_ward', document.getElementById('custWard').value);
+        localStorage.setItem('gramcart_landmark', document.getElementById('custLandmark').value);
+    }
+
+    function loadUserData() {
+        if(localStorage.getItem('gramcart_name')) document.getElementById('custName').value = localStorage.getItem('gramcart_name');
+        if(localStorage.getItem('gramcart_phone')) document.getElementById('custPhone').value = localStorage.getItem('gramcart_phone');
+        if(localStorage.getItem('gramcart_village')) document.getElementById('custVillage').value = localStorage.getItem('gramcart_village');
+        if(localStorage.getItem('gramcart_ward')) document.getElementById('custWard').value = localStorage.getItem('gramcart_ward');
+        if(localStorage.getItem('gramcart_landmark')) document.getElementById('custLandmark').value = localStorage.getItem('gramcart_landmark');
+    }
 
     function renderProducts() {
         renderSingleGrid('grid1', data1, 'c1');
@@ -479,6 +522,7 @@ const data4 = [
         renderSingleGrid('grid3', data3, 'c3');
         renderSingleGrid('grid4', data4, 'c4');
         renderSingleGrid('grid5', data5, 'c5');
+        renderSingleGrid('grid6', data6, 'c6');
     }
 
     function renderSingleGrid(containerId, dataList, prefix) {
@@ -573,7 +617,10 @@ const data4 = [
         let village = document.getElementById('custVillage').value.trim();
         let ward = document.getElementById('custWard').value.trim();
         let landmark = document.getElementById('custLandmark').value.trim();
-        let extraItem = document.getElementById('extraItemName').value.trim();
+        let extraItemsText = document.getElementById('extraItems').value.trim();
+        
+        let feedbackInput = document.querySelector('input[name="feedback"]:checked');
+        let feedbackText = feedbackInput ? feedbackInput.value : "लागू नहीं";
         
         if(!name || !village || !phone) {
             alert("कृपया अपना नाम, मोबाइल नंबर और गांव का नाम भरें!");
@@ -598,13 +645,13 @@ const data4 = [
             }
         });
 
-        if(extraItem !== "") {
+        if (extraItemsText !== "") {
             hasItem = true;
-            message += `%0A*अन्य सामान (Extra Items):*%0A- ${extraItem}%0A`;
+            message += `- अन्य सामान (लिखा हुआ): ${extraItemsText}%0A`;
         }
 
         if(!hasItem) {
-            alert("कृपया कम से कम एक सामान चुनें या अतिरिक्त सामान का नाम लिखें!");
+            alert("कृपया सूची में से कम से कम एक सामान चुनें या 'अन्य सामान' बॉक्स में कुछ लिखें!");
             return;
         }
 
@@ -612,8 +659,8 @@ const data4 = [
         let deliveryText = "मुफ्त (₹0)";
 
         if (total > 0 && total < 200) {
-            deliveryFee = 10;
-            deliveryText = "₹10";
+            deliveryFee = 00;
+            deliveryText = "₹00";
         } else if (total >= 500) {
             deliveryFee = 0;
             deliveryText = "मुफ्त (₹0)";
@@ -627,7 +674,7 @@ const data4 = [
 
         let grandTotal = total + deliveryFee;
 
-      message += `%0A------------------------%0A`;
+        message += `%0A------------------------%0A`;
         message += `सामान का कुल मूल्य: ₹${Math.round(total * 100) / 100}%0A`;
         message += `डिलीवरी चार्ज: ${deliveryText}%0A`;
         message += `कुल देय राशि (Grand Total): ₹${Math.round(grandTotal * 100) / 100}%0A`;
@@ -638,10 +685,8 @@ const data4 = [
         message += `गांव: ${village}%0A`;
         message += `वार्ड: ${ward || 'लागू नहीं'}%0A`;
         message += `लैंडमार्क: ${landmark || 'लागू नहीं'}%0A`;
-        
-        // यह लाइन लाइव लोकेशन को मैसेज में जोड़ने के लिए है
-        let locationLink = document.getElementById('sellerLocation') ? document.getElementById('sellerLocation').value : '';
-        message += `गूगल मैप लोकेशन: ${locationLink ? locationLink : 'लोकेशन नहीं दी गई'}%0A`;
+        message += `------------------------%0A`;
+        message += `*ग्राहक का फीडबैक:* ${feedbackText}%0A`;
 
         let whatsappNumber = "919546125299"; 
         let url = `https://wa.me/${whatsappNumber}?text=${message}`;
